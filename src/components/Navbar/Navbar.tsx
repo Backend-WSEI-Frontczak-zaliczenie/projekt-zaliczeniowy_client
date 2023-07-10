@@ -14,23 +14,23 @@ import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getCurrentUserData from "../../utils/api/getUserdata";
-
-export type Role = "user" | "admin" | "notLoggedIn";
+import { Roles } from "../../types/types";
+import { defaultUser } from "../../constants";
 
 export type Page = {
   name: string;
   path: string;
-  roles: Role[];
+  roles: Roles[];
 };
 
 const pages: Page[] = [
   {
     name: "Restaurants",
     path: "/restaurants",
-    roles: ["user", "notLoggedIn"],
+    roles: [Roles.User, Roles.NotLogged, Roles.Admin],
   },
-  { name: "Reservations", path: "/reservations", roles: ["user"] },
-  { name: "Admin", path: "/admin", roles: ["admin"] },
+  { name: "Reservations", path: "/reservations", roles: [Roles.User] },
+  { name: "Admin", path: "/admin", roles: [Roles.Admin] },
 ];
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -54,10 +54,8 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-  const checkRole = (roles: Role[]) =>
-    roles.some((role) => role === user?.role || role === "notLoggedIn");
-
-  const { data: user } = useQuery(["userData"], getCurrentUserData);
+  const { data: user } = useQuery(["userData"], getCurrentUserData),
+    currentUser = user || defaultUser;
 
   return (
     <AppBar position="static">
@@ -111,7 +109,7 @@ function Navbar() {
               {pages.map((page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    {checkRole(page.roles) && (
+                    {page.roles.includes(currentUser.role) && (
                       <Link to={page.path} className="no-underline text-black">
                         {page.name}
                       </Link>
@@ -146,7 +144,7 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {checkRole(page.roles) && (
+                {page.roles.includes(currentUser.role) && (
                   <Link to={page.path} className="no-underline text-white">
                     {page.name}
                   </Link>

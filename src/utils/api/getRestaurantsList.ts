@@ -9,6 +9,7 @@ const getRestaurantsList = async () =>
           type: "big",
           city: "Kraków",
           region: "Stare miasto",
+          rating: 4,
           image:
             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80",
         },
@@ -17,6 +18,7 @@ const getRestaurantsList = async () =>
           type: "medium",
           city: "Kraków",
           region: "Krowodrza górka",
+          rating: 3,
           image:
             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80",
         },
@@ -25,6 +27,7 @@ const getRestaurantsList = async () =>
           type: "very small",
           city: "Kraków",
           region: "Kazimierz",
+          rating: 5,
           image:
             "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80",
         },

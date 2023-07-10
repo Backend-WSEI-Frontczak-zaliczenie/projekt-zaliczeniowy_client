@@ -1,9 +1,11 @@
+import { Roles, User } from "../../types/types";
+
 const getCurrentUserData = async () =>
-  new Promise<{ name: string; role: string }>((resolve, reject) => {
+  new Promise<User>((resolve, reject) => {
     setTimeout(() => {
       resolve({
         name: "John Doe",
-        role: "user",
+        role: Roles.User,
       });
     }, 1000);
   });
