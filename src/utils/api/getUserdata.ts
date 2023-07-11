@@ -4,7 +4,7 @@ import { defaultUser } from "../../constants";
 const getCurrentUserData = async () =>
   new Promise<User | null>((resolve, reject) => {
     setTimeout(() => {
-      resolve({ name: "John", role: Roles.User });
+      resolve(null);
     }, 1000);
   }).then((data) => data ?? defaultUser);
 

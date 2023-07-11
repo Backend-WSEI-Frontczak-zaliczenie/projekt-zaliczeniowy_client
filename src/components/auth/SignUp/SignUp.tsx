@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useRef } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,15 +10,28 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
+import signUp from "../../../utils/api/signUp";
 
 export default function SignUp() {
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // TO DO: request to the server with form data
-    navigate("/");
+    const email = data.get("email");
+    const password = data.get("password");
+
+    if (!email || !password) {
+      setError("Please fill out all fields");
+      return;
+    }
+
+    signUp(email, password)
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => (error ? null : navigate("/login")));
   };
 
   return (
@@ -38,29 +51,18 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        {error && (
+          <Typography component="h1" variant="h5" color="error">
+            {error}
+          </Typography>
+        )}
+        <Box
+          component="form"
+          onChange={() => setError("")}
+          onSubmit={handleSubmit}
+          sx={{ mt: 3 }}
+        >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 required

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,15 +10,28 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useQueryClient } from "@tanstack/react-query";
+import signIn from "../../../utils/api/signIn";
 
 export default function SignIn() {
+  const [error, setError] = useState("");
   const queryClient = useQueryClient();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // TO DO: request to the server and refetch userData when return status 200
-    queryClient.refetchQueries(["userData"]);
+    const email = data.get("email");
+    const password = data.get("password");
+
+    if (!email || !password) {
+      setError("Please fill out all fields");
+      return;
+    }
+
+    signIn(email, password)
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => queryClient.refetchQueries(["userData"]));
   };
 
   return (
@@ -38,7 +51,15 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Typography component="h1" variant="h5" color="error">
+          {error}
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          onChange={() => setError("")}
+          sx={{ mt: 1 }}
+        >
           <TextField
             margin="normal"
             required
