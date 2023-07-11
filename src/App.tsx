@@ -6,16 +6,35 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import { prefetchUserData } from "./utils/queryClient";
 import MainLayout from "./components/layout/MainLayout/MainLayout";
 import RestaurantsList from "./components/RestaurantsList/RestaurantsList";
+import SignIn from "./components/auth/SignIn/SignIn";
+import SignUp from "./components/auth/SignUp/SignUp";
+import ProtectedRoute from "./components/auth/ProtectedRoute/ProtectedRoute";
+import { logout } from "./utils/api/logout";
+import { Roles } from "./types/types";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<MainLayout />} loader={prefetchUserData}>
+    <Route element={<MainLayout />}>
       <Route path="/" element={<Navigate to="/restaurants" />} />
       <Route path="restaurants" element={<RestaurantsList />} />
-      <Route path="reservations" element={<>Reservations</>} />
+
+      <Route element={<ProtectedRoute role={Roles.Admin} />}>
+        <Route path="admin" element={<>admin panel</>} />
+      </Route>
+      <Route element={<ProtectedRoute role={Roles.User} />}>
+        <Route path="reservations" element={<>reservations</>} />
+      </Route>
+
+      <Route element={<ProtectedRoute role={Roles.NotLogged} />}>
+        <Route path="login" element={<SignIn />} />
+        <Route path="register" element={<SignUp />} />
+      </Route>
+
+      <Route path="logout" loader={logout} element={<Navigate to="/" />} />
+
+      <Route path="*" element={<>Not Found</>} />
     </Route>
   )
 );

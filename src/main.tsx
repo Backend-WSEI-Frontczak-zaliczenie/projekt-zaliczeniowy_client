@@ -5,7 +5,9 @@ import App from "./App.tsx";
 import "./index.scss";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-import { queryClient } from "./utils/queryClient";
+import { queryClient, prefetchUserData } from "./utils/queryClient";
+
+prefetchUserData();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

@@ -33,7 +33,11 @@ const pages: Page[] = [
   { name: "Admin", path: "/admin", roles: [Roles.Admin] },
 ];
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [
+  { name: "Login", path: "/login", roles: [Roles.NotLogged] },
+  { name: "Register", path: "/register", roles: [Roles.NotLogged] },
+  { name: "Logout", path: "/logout", roles: [Roles.User, Roles.Admin] },
+];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -123,7 +127,7 @@ function Navbar() {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -138,25 +142,26 @@ function Navbar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page.roles.includes(currentUser.role) && (
-                  <Link to={page.path} className="no-underline text-white">
-                    {page.name}
-                  </Link>
-                )}
-              </Button>
-            ))}
+            {pages.map(
+              (page) =>
+                page.roles.includes(currentUser.role) && (
+                  <Button
+                    key={page.name}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                  >
+                    <Link to={page.path} className="no-underline text-white">
+                      {page.name}
+                    </Link>
+                  </Button>
+                )
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -175,11 +180,22 @@ function Navbar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {settings.map(
+                (setting) =>
+                  setting.roles.includes(currentUser.role) && (
+                    <Link
+                      to={setting.path}
+                      key={setting.name}
+                      className="no-underline text-black"
+                    >
+                      <MenuItem onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">
+                          {setting.name}
+                        </Typography>
+                      </MenuItem>
+                    </Link>
+                  )
+              )}
             </Menu>
           </Box>
         </Toolbar>

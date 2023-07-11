@@ -1,13 +1,11 @@
 import { Roles, User } from "../../types/types";
+import { defaultUser } from "../../constants";
 
 const getCurrentUserData = async () =>
-  new Promise<User>((resolve, reject) => {
+  new Promise<User | null>((resolve, reject) => {
     setTimeout(() => {
-      resolve({
-        name: "John Doe",
-        role: Roles.User,
-      });
+      resolve({ name: "John", role: Roles.User });
     }, 1000);
-  });
+  }).then((data) => data ?? defaultUser);
 
 export default getCurrentUserData;
