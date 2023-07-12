@@ -11,10 +11,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useQueryClient } from "@tanstack/react-query";
 import signIn from "../../../utils/api/signIn";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [error, setError] = useState("");
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,7 +33,9 @@ export default function SignIn() {
       .catch((error) => {
         setError(error.message);
       })
-      .finally(() => queryClient.refetchQueries(["userData"]));
+      .finally(() => {
+        queryClient.refetchQueries(["userData"]).then(() => navigate("/"));
+      });
   };
 
   return (
