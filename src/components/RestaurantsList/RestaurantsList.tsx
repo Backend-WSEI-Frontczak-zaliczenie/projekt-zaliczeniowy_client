@@ -10,7 +10,7 @@ function RestaurantsList() {
     <Grid container spacing={2} sx={{ my: "50px" }}>
       {list?.map((item) => (
         <Grid key={item.name} item md={4} sm={6} xs={12}>
-          <RestaurantItem item={item} />
+          <RestaurantItem {...item} />
         </Grid>
       ))}
     </Grid>

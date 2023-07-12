@@ -7,10 +7,13 @@ interface ReviewsListProps {
 }
 
 const ReviewsList = ({ restaurantId }: ReviewsListProps) => {
-  const { data: reviews } = useQuery(["reviewsList"], getReviewsList);
+  const { data: reviews, isLoading } = useQuery(
+    ["reviewsList", restaurantId],
+    () => getReviewsList(restaurantId)
+  );
 
   const reviewsList = reviews?.map(({ id, textContent }) => (
-    <div>
+    <div key={textContent}>
       <Typography variant="subtitle1">
         <b>Review ID: {id}</b>
       </Typography>
@@ -19,7 +22,7 @@ const ReviewsList = ({ restaurantId }: ReviewsListProps) => {
       </Typography>
     </div>
   ));
-  return <div>{reviewsList}</div>;
+  return <div>{isLoading ? <p>Loading reviews...</p> : reviewsList}</div>;
 };
 
 export default ReviewsList;

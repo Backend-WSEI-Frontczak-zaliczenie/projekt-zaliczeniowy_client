@@ -1,23 +1,25 @@
 import { Review } from "../../types/types";
 
-const getReviewsList = async () =>
+const getReviewsList = async (
+  restaurandId: Pick<Review, "restaurantId">["restaurantId"]
+) =>
   new Promise<Review[]>((resolve, reject) => {
     setTimeout(() => {
       resolve([
         {
           id: 1,
-          restaurantId: 4,
-          textContent: "The best restaurant!",
+          restaurantId: restaurandId,
+          textContent: "The best restaurant!" + restaurandId,
         },
         {
           id: 2,
-          restaurantId: 4,
-          textContent: "Thanks for everything!",
+          restaurantId: restaurandId,
+          textContent: "Thanks for everything!" + restaurandId,
         },
         {
           id: 3,
-          restaurantId: 4,
-          textContent: "Wow! That was amazing food!",
+          restaurantId: restaurandId,
+          textContent: "Wow! That was amazing food!" + restaurandId,
         },
       ]);
     }, 1000);

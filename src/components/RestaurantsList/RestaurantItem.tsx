@@ -21,7 +21,7 @@ import WriteReview from "./WriteReview";
 
 type ReviewsStates = "write" | "read" | null;
 
-function RestaurantsItem({ item }: { item: RestaurantItem }) {
+function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isWriteReview, setIsWriteReview] = useState<ReviewsStates>("read");
 
@@ -36,27 +36,26 @@ function RestaurantsItem({ item }: { item: RestaurantItem }) {
     _event: React.MouseEvent<HTMLElement>,
     isWrite: ReviewsStates
   ) => {
+    if (isWrite === null) return;
     setIsWriteReview(isWrite);
   };
 
   const { data: user } = useQuery(["userData"], getCurrentUserData),
     currentUser = user || defaultUser;
 
-  const { name, type, city, region, rating, image } = item;
-
   return (
     <>
       <Card sx={{ maxWidth: 345 }} className="restaurants_item">
-        <CardMedia
+        {/* <CardMedia
           component="img"
           height="140"
           image={image}
           alt={`${name} image`}
-        />
+        /> */}
         <CardContent className="restaurants_item__content">
           <Typography variant="h5">{name}</Typography>
           <Typography gutterBottom variant="subtitle1">
-            <LocationOnIcon /> {region}, {city}
+            <LocationOnIcon /> {/* region */}, {city}
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
@@ -120,7 +119,9 @@ function RestaurantsItem({ item }: { item: RestaurantItem }) {
               size="small"
             >
               <ToggleButton value="write">Write Review</ToggleButton>
-              <ToggleButton value="read">Read Reviews</ToggleButton>
+              <ToggleButton value="read" selected>
+                Read Reviews
+              </ToggleButton>
             </ToggleButtonGroup>
 
             <h4>{name}</h4>
@@ -134,12 +135,8 @@ function RestaurantsItem({ item }: { item: RestaurantItem }) {
           >
             {isWriteReview === "write" ? (
               <WriteReview />
-            ) : isWriteReview === "read" ? (
-              <ReviewsList restaurantId={1} />
             ) : (
-              <Typography variant="subtitle1">
-                Choose one options from above.
-              </Typography>
+              <ReviewsList restaurantId={id} />
             )}
           </Box>
         </Box>

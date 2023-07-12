@@ -1,4 +1,5 @@
 export interface RestaurantItem {
+  id: number;
   name: string;
   type: string;
   city: string;
