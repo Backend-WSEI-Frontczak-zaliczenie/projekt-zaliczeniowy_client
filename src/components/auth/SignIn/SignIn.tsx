@@ -30,11 +30,12 @@ export default function SignIn() {
     }
 
     signIn(email, password)
+      .then(() => () => navigate("/"))
       .catch((error) => {
         setError(error.message);
       })
       .finally(() => {
-        queryClient.refetchQueries(["userData"]).then(() => navigate("/"));
+        queryClient.refetchQueries(["userData"]);
       });
   };
 
