@@ -24,3 +24,5 @@ export interface Review {
   restaurantId: number;
   textContent: string;
 }
+
+export type ReviewsStates = "write" | "read" | null;

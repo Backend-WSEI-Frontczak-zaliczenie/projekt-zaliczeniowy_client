@@ -13,6 +13,7 @@ import SignUp from "./components/auth/SignUp/SignUp";
 import ProtectedRoute from "./components/auth/ProtectedRoute/ProtectedRoute";
 import { logout } from "./utils/api/logout";
 import { Roles } from "./types/types";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,10 +22,7 @@ const router = createBrowserRouter(
       <Route path="restaurants" element={<RestaurantsList />} />
 
       <Route element={<ProtectedRoute role={Roles.Admin} />}>
-        <Route path="admin" element={<>admin panel</>} />
-      </Route>
-      <Route element={<ProtectedRoute role={Roles.User} />}>
-        <Route path="reservations" element={<>reservations</>} />
+        <Route path="admin" element={<AdminPanel />} />
       </Route>
 
       <Route element={<ProtectedRoute role={Roles.NotLogged} />}>

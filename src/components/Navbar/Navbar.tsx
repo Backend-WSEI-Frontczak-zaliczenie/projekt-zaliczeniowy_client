@@ -29,7 +29,6 @@ const pages: Page[] = [
     path: "/restaurants",
     roles: [Roles.User, Roles.NotLogged, Roles.Admin],
   },
-  { name: "Reservations", path: "/reservations", roles: [Roles.User] },
   { name: "Admin", path: "/admin", roles: [Roles.Admin] },
 ];
 

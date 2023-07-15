@@ -6,7 +6,7 @@ const getCurrentUserData = async () =>
     setTimeout(() => {
       resolve({
         name: "John Doe",
-        role: Roles.NotLogged,
+        role: Roles.User,
       });
     }, 1000);
   }).then((data) => data ?? defaultUser);

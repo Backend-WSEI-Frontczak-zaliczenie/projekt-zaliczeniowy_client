@@ -30,7 +30,7 @@ export default function SignIn() {
     }
 
     signIn(email, password)
-      .then(() => () => navigate("/"))
+      .then(() => navigate("/"))
       .catch((error) => {
         setError(error.message);
       })

@@ -5,21 +5,18 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Modal,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { RestaurantItem, Roles } from "../../types/types";
+import { RestaurantItem, ReviewsStates, Roles } from "../../types/types";
 import { useState } from "react";
 import getCurrentUserData from "../../utils/api/getUserdata";
 import { useQuery } from "@tanstack/react-query";
 import { defaultUser } from "../../constants";
 import ReviewsList from "./ReadReviews";
 import WriteReview from "./WriteReview";
-
-type ReviewsStates = "write" | "read" | null;
 
 function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -55,7 +52,7 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
         <CardContent className="restaurants_item__content">
           <Typography variant="h5">{name}</Typography>
           <Typography gutterBottom variant="subtitle1">
-            <LocationOnIcon /> {/* region */}, {city}
+            <LocationOnIcon /> {city}
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
@@ -134,7 +131,10 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
             flexWrap={"wrap"}
           >
             {isWriteReview === "write" ? (
-              <WriteReview />
+              <WriteReview
+                restaurantId={id}
+                setIsWriteReview={setIsWriteReview}
+              />
             ) : (
               <ReviewsList restaurantId={id} />
             )}
