@@ -1,9 +1,9 @@
 import { Review } from "../../types/types";
 
-const getCommentsList = async (query: { queryKey: string[] }) => {
+const getCommentsList = async (restaurandId: number) => {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/comments/get/` + query.queryKey[1]
+      `${import.meta.env.VITE_API_URL}/comments/get/` + restaurandId
     );
     if (!response.ok) return [];
     const data: Review[] = await response.json();

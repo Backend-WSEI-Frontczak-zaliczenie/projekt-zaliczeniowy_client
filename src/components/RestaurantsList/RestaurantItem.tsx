@@ -15,7 +15,7 @@ import { useState } from "react";
 import getCurrentUserData from "../../utils/api/getUserdata";
 import { useQuery } from "@tanstack/react-query";
 import { defaultUser } from "../../constants";
-import ReviewsList from "./ReadReviews";
+import ReviewsList from "./ReviewsList";
 import WriteReview from "./WriteReview";
 
 function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
@@ -59,7 +59,7 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
             Type: {type}
           </Typography>
         </CardContent>
-        {currentUser.role === Roles.User && (
+        {currentUser.role !== Roles.NotLogged && (
           <CardActions>
             <Button
               onClick={handleModalOpen}
@@ -100,29 +100,31 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
           }}
           className="restaurants_item__modal"
         >
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="space-between"
-            flexWrap={"wrap"}
-            gap={2}
-          >
-            <ToggleButtonGroup
-              color="standard"
-              value={isWriteReview}
-              exclusive
-              onChange={handleToggleChange}
-              aria-label="Platform"
-              size="small"
+          {currentUser.role === Roles.User && (
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="space-between"
+              flexWrap={"wrap"}
+              gap={2}
             >
-              <ToggleButton value="write">Write Review</ToggleButton>
-              <ToggleButton value="read" selected>
-                Read Reviews
-              </ToggleButton>
-            </ToggleButtonGroup>
+              <ToggleButtonGroup
+                color="standard"
+                value={isWriteReview}
+                exclusive
+                onChange={handleToggleChange}
+                aria-label="Platform"
+                size="small"
+              >
+                <ToggleButton value="write">Write Review</ToggleButton>
+                <ToggleButton value="read" selected>
+                  Read Reviews
+                </ToggleButton>
+              </ToggleButtonGroup>
 
-            <h4>{name}</h4>
-          </Box>
+              <h4>{name}</h4>
+            </Box>
+          )}
 
           <Box
             display="flex"
@@ -136,7 +138,10 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
                 setIsWriteReview={setIsWriteReview}
               />
             ) : (
-              <ReviewsList restaurantId={id} />
+              <ReviewsList
+                restaurantId={id}
+                isAdmin={currentUser.role === Roles.Admin}
+              />
             )}
           </Box>
         </Box>

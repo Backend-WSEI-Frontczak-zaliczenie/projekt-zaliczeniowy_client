@@ -13,7 +13,8 @@ import SignUp from "./components/auth/SignUp/SignUp";
 import ProtectedRoute from "./components/auth/ProtectedRoute/ProtectedRoute";
 import { logout } from "./utils/api/logout";
 import { Roles } from "./types/types";
-import AdminPanel from "./components/AdminPanel/AdminPanel";
+import ManageRestaurants from "./components/AdminPanel/ManageRestaurants";
+import ManageComments from "./components/AdminPanel/ManageComments";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,7 +23,8 @@ const router = createBrowserRouter(
       <Route path="restaurants" element={<RestaurantsList />} />
 
       <Route element={<ProtectedRoute role={Roles.Admin} />}>
-        <Route path="admin" element={<AdminPanel />} />
+        <Route path="manage-restaurants" element={<ManageRestaurants />} />
+        <Route path="manage-comments" element={<ManageComments />} />
       </Route>
 
       <Route element={<ProtectedRoute role={Roles.NotLogged} />}>

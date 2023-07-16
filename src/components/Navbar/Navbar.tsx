@@ -29,7 +29,12 @@ const pages: Page[] = [
     path: "/restaurants",
     roles: [Roles.User, Roles.NotLogged, Roles.Admin],
   },
-  { name: "Admin", path: "/admin", roles: [Roles.Admin] },
+  {
+    name: "Manage Restaurants",
+    path: "/manage-restaurants",
+    roles: [Roles.Admin],
+  },
+  { name: "Manage Comments", path: "/manage-comments", roles: [Roles.Admin] },
 ];
 
 const settings = [

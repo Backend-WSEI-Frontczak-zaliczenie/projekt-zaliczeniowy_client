@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import getRestaurantsList from "../../utils/api/getRestaurantsList";
 import { Grid } from "@mui/material";
 
-function AdminPanel() {
+const ManageRestaurants = () => {
   //const { data: list } = useQuery(["commentsList"], getCommentsList);
 
-  return <div>ADMIN</div>;
-}
-export default AdminPanel;
+  return <div>Manage Restaurants</div>;
+};
+export default ManageRestaurants;
