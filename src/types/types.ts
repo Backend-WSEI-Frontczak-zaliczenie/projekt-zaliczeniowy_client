@@ -3,9 +3,7 @@ export interface RestaurantItem {
   name: string;
   type: string;
   city: string;
-  // region: string;
   rating: number;
-  // image: string;
 }
 
 export enum Roles {

@@ -43,12 +43,6 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
   return (
     <>
       <Card sx={{ maxWidth: 345 }} className="restaurants_item">
-        {/* <CardMedia
-          component="img"
-          height="140"
-          image={image}
-          alt={`${name} image`}
-        /> */}
         <CardContent className="restaurants_item__content">
           <Typography variant="h5">{name}</Typography>
           <Typography gutterBottom variant="subtitle1">
