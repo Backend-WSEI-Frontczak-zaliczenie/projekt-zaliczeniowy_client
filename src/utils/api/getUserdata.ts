@@ -1,14 +1,21 @@
-import { Roles, User } from "../../types/types";
+import { User } from "../../types/types";
 import { defaultUser } from "../../constants";
 
-const getCurrentUserData = async () =>
-  new Promise<User | null>((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        name: "John Doe",
-        role: Roles.Admin,
-      });
-    }, 1000);
-  }).then((data) => data ?? defaultUser);
+const getCurrentUserData = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/Identity/Info`,
+      {
+        method: "POST",
+      }
+    );
+    if (!response.ok) return defaultUser;
+    const data: User = await response.json();
+    if (data.roles.length === 0) return { ...data, roles: ["User"] };
+    return data;
+  } catch (error) {
+    return defaultUser;
+  }
+};
 
 export default getCurrentUserData;

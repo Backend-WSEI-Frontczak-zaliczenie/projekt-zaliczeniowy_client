@@ -15,7 +15,7 @@ const addRestaurant = async (name: string, type: string, city: string) => {
       }),
     }
   );
-  if (response.status === 200) return;
+  if (response.status === 200) return await response.json();
   throw new Error("Unable to add restaurant.");
 };
 

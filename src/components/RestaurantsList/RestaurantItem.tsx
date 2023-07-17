@@ -53,7 +53,7 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
             Type: {type}
           </Typography>
         </CardContent>
-        {currentUser.role !== Roles.NotLogged && (
+        {!currentUser.roles.includes(Roles.NotLogged) && (
           <CardActions>
             <Button
               onClick={handleModalOpen}
@@ -94,7 +94,7 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
           }}
           className="restaurants_item__modal"
         >
-          {currentUser.role === Roles.User && (
+          {currentUser.roles.includes(Roles.User) && (
             <Box
               display="flex"
               justifyContent="center"
@@ -134,7 +134,7 @@ function RestaurantsItem({ name, type, city, id }: RestaurantItem) {
             ) : (
               <ReviewsList
                 restaurantId={id}
-                isAdmin={currentUser.role === Roles.Admin}
+                isAdmin={currentUser.roles.includes(Roles.Admin)}
               />
             )}
           </Box>

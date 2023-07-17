@@ -1,27 +1,57 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import addComment from "../../utils/api/addComment";
-import { Review, ReviewsStates } from "../../types/types";
-import editComment from "../../utils/api/editComment";
+import addCommentRequest from "../../utils/api/addComment";
+import { Review } from "../../types/types";
+import editCommentRequest from "../../utils/api/editComment";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ListState } from "./ReviewsList";
 
 interface WriteReviewProps {
   restaurantId: number;
-  setIsWriteReview?: React.Dispatch<React.SetStateAction<ReviewsStates>>;
+  setIsWriteReview: any;
   isEdit?: boolean;
   review?: Review | null;
 }
 
 const WriteReview = ({
   restaurantId,
-  setIsWriteReview,
   isEdit,
   review,
+  setIsWriteReview,
 }: WriteReviewProps) => {
+  const queryClient = useQueryClient();
   const [reviewContent, setReviewContent] = useState<string>(
     isEdit && review ? review.textContent : ""
   );
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+
+  const { mutate: editComment } = useMutation({
+    mutationFn: (data: { id: number; textContent: string }) =>
+      editCommentRequest(data.id, data.textContent),
+
+    onSuccess: () => {
+      queryClient
+        .invalidateQueries(["commentsList", restaurantId])
+        .then(() => setIsWriteReview(ListState.Read));
+    },
+    onError: () => {
+      setError("Something went wrong.");
+    },
+  });
+
+  const { mutate: addComment } = useMutation({
+    mutationFn: (data: { reviewContent: string }) =>
+      addCommentRequest(restaurantId, data.reviewContent),
+    onSuccess: () => {
+      queryClient
+        .invalidateQueries(["commentsList", restaurantId])
+        .then(() => setIsWriteReview(ListState.Read));
+    },
+    onError: () => {
+      setError("Something went wrong.");
+    },
+  });
 
   const handleSubmit = () => {
     if (reviewContent) {
@@ -29,13 +59,12 @@ const WriteReview = ({
 
       if (isEdit) {
         review &&
-          editComment(review?.id, reviewContent).catch((error) => {
-            setError(error.message);
+          editComment({
+            id: review.id,
+            textContent: reviewContent,
           });
       } else {
-        addComment(restaurantId, reviewContent).catch((error) => {
-          setError(error.message);
-        });
+        addComment({ reviewContent });
       }
 
       setReviewContent("");

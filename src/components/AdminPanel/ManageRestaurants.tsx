@@ -54,16 +54,20 @@ const ManageRestaurants = () => {
   const removeMutation = useMutation({
     mutationFn: (id: number) => removeRestaurant(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["restaurantsList"] });
+      queryClient.invalidateQueries({
+        queryKey: ["restaurantsList"],
+      });
       handleModalClose();
     },
   });
 
   const addMutation = useMutation({
-    mutationFn: (args: RestaurantItem) =>
+    mutationFn: (args: Omit<RestaurantItem, "rating" | "adultOnly">) =>
       addRestaurant(args.name, args.type, args.city),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["restaurantsList"] });
+      queryClient.invalidateQueries({
+        queryKey: ["restaurantsList"],
+      });
       handleModalClose();
     },
   });
@@ -72,7 +76,9 @@ const ManageRestaurants = () => {
     mutationFn: (args: { restaurantId: number } & RestaurantItem) =>
       editRestaurant(args.restaurantId, args.name, args.type, args.city),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["restaurantsList"] });
+      queryClient.invalidateQueries({
+        queryKey: ["restaurantsList"],
+      });
       handleModalClose();
     },
   });

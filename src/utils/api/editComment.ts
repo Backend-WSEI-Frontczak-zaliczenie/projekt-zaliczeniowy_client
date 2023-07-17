@@ -1,5 +1,3 @@
-import { Review } from "../../types/types";
-
 const editComment = async (commentId: number, textContent: string) => {
   const response = await fetch(
     `${import.meta.env.VITE_API_URL}/comments/edit/` + commentId,
@@ -13,7 +11,7 @@ const editComment = async (commentId: number, textContent: string) => {
       }),
     }
   );
-  if (response.status === 200) return;
+  if (response.status === 200) return await response.json();
   throw new Error("Unable to edit comment.");
 };
 

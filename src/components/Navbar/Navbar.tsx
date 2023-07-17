@@ -34,7 +34,6 @@ const pages: Page[] = [
     path: "/manage-restaurants",
     roles: [Roles.Admin],
   },
-  { name: "Manage Comments", path: "/manage-comments", roles: [Roles.Admin] },
 ];
 
 const settings = [
@@ -117,7 +116,7 @@ function Navbar() {
               {pages.map((page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                    {page.roles.includes(currentUser.role) && (
+                    {page.roles.some((r) => currentUser.roles.includes(r)) && (
                       <Link to={page.path} className="no-underline text-black">
                         {page.name}
                       </Link>
@@ -148,7 +147,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map(
               (page) =>
-                page.roles.includes(currentUser.role) && (
+                page.roles.some((r) => currentUser.roles.includes(r)) && (
                   <Button
                     key={page.name}
                     onClick={handleCloseNavMenu}
@@ -186,7 +185,7 @@ function Navbar() {
             >
               {settings.map(
                 (setting) =>
-                  setting.roles.includes(currentUser.role) && (
+                  setting.roles.some((r) => currentUser.roles.includes(r)) && (
                     <Link
                       to={setting.path}
                       key={setting.name}

@@ -4,17 +4,18 @@ export interface RestaurantItem {
   type: string;
   city: string;
   rating: number;
+  adultOnly: boolean;
 }
 
 export enum Roles {
-  User = "user",
-  Admin = "admin",
+  User = "User",
+  Admin = "Admin",
   NotLogged = "notLoggedIn",
 }
 
 export type User = {
-  name: string | null;
-  role: Roles;
+  userName: string | null;
+  roles: Roles[];
 };
 
 export interface Review {

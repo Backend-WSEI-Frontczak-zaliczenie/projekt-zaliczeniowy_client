@@ -13,7 +13,7 @@ interface ReviewsListProps {
   isAdmin: boolean;
 }
 
-enum ListState {
+export enum ListState {
   Read = "read",
   Edit = "edit",
   Remove = "remove",
@@ -75,8 +75,6 @@ const ReviewsList = ({ restaurantId, isAdmin }: ReviewsListProps) => {
       })
     : "No reviews";
 
-  let component;
-
   switch (listState) {
     case ListState.Read:
       return reviewsList;
@@ -86,12 +84,13 @@ const ReviewsList = ({ restaurantId, isAdmin }: ReviewsListProps) => {
           restaurantId={restaurantId}
           isEdit={true}
           review={reviewToEdit}
+          setIsWriteReview={setListState}
         />
       );
     case ListState.Remove:
       reviewToEdit && removeComment(reviewToEdit.id);
   }
-  return <div>{isLoading ? <p>Loading reviews...</p> : component}</div>;
+  return <div>{isLoading ? <p>Loading reviews...</p> : null}</div>;
 };
 
 export default ReviewsList;

@@ -8,12 +8,13 @@ const ProtectedRoute = ({ role }: { role: Roles }) => {
     staleTime: Infinity,
   });
 
-  if (!user) {
+  if (!user || !user.userName) {
     if (role === Roles.NotLogged) return <Outlet />;
     return <Navigate to="/login" />;
   }
 
-  if (!role.includes(user.role)) return <Navigate to="/restaurants" />;
+  if (!user.roles.some((r) => role.includes(r)))
+    return <Navigate to="/restaurants" />;
 
   return <Outlet />;
 };
