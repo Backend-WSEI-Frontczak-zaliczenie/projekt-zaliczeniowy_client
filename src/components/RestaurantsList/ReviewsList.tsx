@@ -6,7 +6,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import WriteReview from "./WriteReview";
 import { Review } from "../../types/types";
-import removeComment from "../../utils/api/removeComment";
+import removeCommentRequest from "../../utils/api/removeComment";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ReviewsListProps {
   restaurantId: number;
@@ -26,6 +27,15 @@ const ReviewsList = ({ restaurantId, isAdmin }: ReviewsListProps) => {
     ["commentsList", restaurantId],
     () => getCommentsList(restaurantId)
   );
+
+  const queryClient = useQueryClient();
+
+  const { mutate: removeComment } = useMutation({
+    mutationFn: (id: number) => removeCommentRequest(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["commentsList", restaurantId]);
+    },
+  });
 
   const reviewsList = reviews
     ? reviews.map((review) => {
@@ -59,7 +69,7 @@ const ReviewsList = ({ restaurantId, isAdmin }: ReviewsListProps) => {
                   />
                   <DeleteIcon
                     onClick={() => {
-                      setListState(ListState.Remove);
+                      removeComment(id);
                       setReviewToEdit(review);
                     }}
                     sx={{ width: 25, mb: 0.5 }}
@@ -87,8 +97,6 @@ const ReviewsList = ({ restaurantId, isAdmin }: ReviewsListProps) => {
           setIsWriteReview={setListState}
         />
       );
-    case ListState.Remove:
-      reviewToEdit && removeComment(reviewToEdit.id);
   }
   return <div>{isLoading ? <p>Loading reviews...</p> : null}</div>;
 };

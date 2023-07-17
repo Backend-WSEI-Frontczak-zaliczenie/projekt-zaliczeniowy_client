@@ -22,6 +22,7 @@ import removeRestaurant from "../../utils/api/removeRestaurant";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import addRestaurant from "../../utils/api/addRestaurant";
 import editRestaurant from "../../utils/api/editRestaurant";
+import Dropdown from "../Dropdown/Dropdown";
 
 enum ModalType {
   Add = "Add",
@@ -35,6 +36,8 @@ const ManageRestaurants = () => {
   const [error, setError] = useState<string>("");
   const [currentRestaurant, setCurrentRestaurant] =
     useState<RestaurantItem | null>(null);
+  const [type, setType] = useState<string>("");
+  const [city, setCity] = useState<string>("");
 
   const { data: list } = useQuery(["restaurantsList"], getRestaurantsList);
 
@@ -90,8 +93,6 @@ const ManageRestaurants = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const name = data.get("name") as string;
-    const type = data.get("type") as string;
-    const city = data.get("city") as string;
 
     if (modalType === ModalType.Add) {
       addMutation.mutate({ name, type, city } as RestaurantItem);
@@ -152,34 +153,28 @@ const ManageRestaurants = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="type"
+            <Dropdown
+              property="types"
+              onChange={setType}
               label="Type"
-              type="type"
-              id="type"
-              autoComplete="type"
+              placeholder="Select type"
               defaultValue={
                 currentRestaurant && modalType === ModalType.Edit
                   ? currentRestaurant.type
-                  : ""
+                  : "Italian"
               }
             />
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              required
-              fullWidth
-              name="city"
+            <Dropdown
+              property="regions"
+              onChange={setCity}
+              placeholder="Select city"
               label="City"
-              type="city"
-              id="city"
-              autoComplete="city"
               defaultValue={
                 currentRestaurant && modalType === ModalType.Edit
                   ? currentRestaurant.city
-                  : ""
+                  : "Warszawa"
               }
             />
           </Grid>
