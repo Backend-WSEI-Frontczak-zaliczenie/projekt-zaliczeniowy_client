@@ -13,6 +13,7 @@ const addRestaurant = async (name: string, type: string, city: string) => {
         adultOnly: true,
         rating: 0,
       }),
+      credentials: "include",
     }
   );
   if (response.status === 200) return await response.json();

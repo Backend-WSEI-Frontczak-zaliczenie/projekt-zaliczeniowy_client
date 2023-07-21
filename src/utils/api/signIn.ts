@@ -15,6 +15,7 @@ const signIn = async (
         rememberMe: true,
         returnUrl: "",
       }),
+      credentials: "include",
     }
   );
   if (response.status === 400) throw new Error("Invalid credentials");

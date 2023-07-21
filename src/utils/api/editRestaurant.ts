@@ -18,6 +18,7 @@ const editRestaurant = async (
         adultOnly: true,
         rating: 0,
       }),
+      credentials: "include",
     }
   );
   if (response.status === 200) return;

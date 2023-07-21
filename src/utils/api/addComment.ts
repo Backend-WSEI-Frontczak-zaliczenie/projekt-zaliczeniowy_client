@@ -8,6 +8,7 @@ const addComment = async (restaurantId: number, textContent: string) => {
       restaurantId,
       textContent,
     }),
+    credentials: "include",
   });
   if (response.status === 200) return;
   throw new Error("Unable to add comment.");

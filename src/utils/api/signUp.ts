@@ -14,6 +14,7 @@ const signUp = async (
         password,
         returnUrl: "",
       }),
+      credentials: "include",
     }
   );
 

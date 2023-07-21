@@ -9,6 +9,7 @@ const removeComment = async (commentId: number) => {
       body: JSON.stringify({
         commentId,
       }),
+      credentials: "include",
     }
   );
   if (response.status === 200) return;

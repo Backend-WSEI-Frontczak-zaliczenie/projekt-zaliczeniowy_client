@@ -9,6 +9,7 @@ const editComment = async (commentId: number, textContent: string) => {
       body: JSON.stringify({
         textContent,
       }),
+      credentials: "include",
     }
   );
   if (response.status === 200) return await response.json();

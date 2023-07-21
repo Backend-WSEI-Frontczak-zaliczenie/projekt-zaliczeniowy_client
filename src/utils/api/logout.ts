@@ -7,6 +7,7 @@ export const logout = async () => {
       `${import.meta.env.VITE_API_URL}/Identity/Logout`,
       {
         method: "POST",
+        credentials: "include",
       }
     );
     if (!result.ok) throw new Error("Something went wrong with logout");

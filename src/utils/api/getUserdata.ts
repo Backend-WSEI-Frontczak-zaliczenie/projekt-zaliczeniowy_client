@@ -7,6 +7,7 @@ const getCurrentUserData = async () => {
       `${import.meta.env.VITE_API_URL}/Identity/Info`,
       {
         method: "POST",
+        credentials: "include",
       }
     );
     if (!response.ok) return defaultUser;

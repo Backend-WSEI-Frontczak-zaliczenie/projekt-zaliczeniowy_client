@@ -9,6 +9,7 @@ const removeRestaurant = async (id: number) => {
       body: JSON.stringify({
         id,
       }),
+      credentials: "include",
     }
   );
   if (response.status === 200) return;
