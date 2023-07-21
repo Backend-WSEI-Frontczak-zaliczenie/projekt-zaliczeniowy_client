@@ -4,9 +4,7 @@ const getOptionsRegions = async (): Promise<
     name: string;
   }[]
 > => {
-  const result = await fetch(`${import.meta.env.VITE_API_URL}/regions/getAll`, {
-    credentials: "include",
-  });
+  const result = await fetch(`${import.meta.env.VITE_API_URL}/regions/getAll`);
   if (result.status === 200) return result.json();
   throw new Error(`Unable to get OptionsRegions.`);
 };
